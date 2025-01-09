@@ -81,11 +81,11 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "posts_author_users_id_fk": {
-          "name": "posts_author_users_id_fk",
-          "tableFrom": "posts",
-          "tableTo": "users",
-          "columnsFrom": ["author"],
+        "subtask_parentId_task_id_fk": {
+          "name": "subtask_parentId_task_id_fk",
+          "tableFrom": "subtask",
+          "tableTo": "tasks",
+          "columnsFrom": ["parentId"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -136,20 +136,11 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "comments_post_id_posts_id_fk": {
-          "name": "comments_post_id_posts_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "posts",
-          "columnsFrom": ["post_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "comments_author_id_users_id_fk": {
-          "name": "comments_author_id_users_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "users",
-          "columnsFrom": ["author_id"],
+        "tasks_authorId_author_id_fk": {
+          "name": "tasks_authorId_author_id_fk",
+          "tableFrom": "tasks",
+          "tableTo": "subtask",
+          "columnsFrom": ["authorId"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"

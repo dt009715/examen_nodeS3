@@ -82,8 +82,8 @@
       "indexes": {},
       "foreignKeys": {
         "posts_author_users_id_fk": {
-          "name": "posts_author_users_id_fk",
-          "tableFrom": "posts",
+          "name": "subtask_author_users_id_fk",
+          "tableFrom": "subtask",
           "tableTo": "users",
           "columnsFrom": ["author"],
           "columnsTo": ["id"],
