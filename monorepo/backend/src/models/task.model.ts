@@ -30,7 +30,7 @@ export const findAllTask = () => {
       .select({
         id: tasks.id,
         content: tasks.content,
-        post: {
+        task: {
           id: subtasks.id,
           title: subtasks.title,
         },

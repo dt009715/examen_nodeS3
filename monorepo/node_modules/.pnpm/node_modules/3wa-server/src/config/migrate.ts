@@ -7,23 +7,24 @@ import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 
 import { env } from "./env";
 const { DATABASE_URL } = env;
+console.log(DATABASE_URL);
 
 async function main() {
-    // Nous créons un pool de connexion à la DB avec notre URL de connexion
-    const pool = new Pool({ connectionString: DATABASE_URL });
+  // Nous créons un pool de connexion à la DB avec notre URL de connexion
+  const pool = new Pool({ connectionString: DATABASE_URL });
 
-    // On initialise la co à la DB pour avoir une instance de NodePgDatabse
-    const db: NodePgDatabase = drizzle(pool);
+  // On initialise la co à la DB pour avoir une instance de NodePgDatabse
+  const db: NodePgDatabase = drizzle(pool);
 
-    console.info('Migrating Database ...');
+  console.info("Migrating Database ...");
 
-    // On appelle enfin la fonction migrate de Drizzle, qui va migrer la DB en appliquant les migrations de schémas
-    // dans le dossier spécifié
-    await migrate(db, { migrationsFolder: 'src/migrations' });
-    console.log('Database migrated successfully');
+  // On appelle enfin la fonction migrate de Drizzle, qui va migrer la DB en appliquant les migrations de schémas
+  // dans le dossier spécifié
+  await migrate(db, { migrationsFolder: "src/migrations" });
+  console.log("Database migrated successfully");
 
-    // On ferme la connexion à la DB
-    await pool.end();
+  // On ferme la connexion à la DB
+  await pool.end();
 }
 
-main()
+main();

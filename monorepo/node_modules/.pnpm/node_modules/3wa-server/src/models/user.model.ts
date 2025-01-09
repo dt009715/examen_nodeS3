@@ -4,8 +4,6 @@ import { NewUser, User } from "../entities/User";
 import { users } from "../schemas";
 import { logger } from "../utils";
 
-// Ce fichier de model corresponds à une écriture + ancienne de drizzle (method objets pour les requetes)
-
 export const getAllUsers = () => {
   try {
     return db.query.users.findMany({
@@ -30,24 +28,7 @@ export const getUserById = (id: string) => {
         id: true,
         username: true,
       },
-      with: {
-        tasks: {
-          columns: {
-            id: true,
-            content: true,
-          },
-        },
-        subtask: {
-          columns: {
-            id: true,
-            title: true,
-          },
-        },
-      },
     });
-
-    // En SQL ca donnerait:
-    // SELECT id, username, comments.id, comments.content, posts.id, posts.title FROM users WHERE id = 'id' LEFT JOIN comments ON users.id = comments.author LEFT JOIN posts ON users.id = posts.author_id;
   } catch (err: any) {
     logger.error(
       `Erreur lors de la récupération de l'utilisateur; ${err.message}`

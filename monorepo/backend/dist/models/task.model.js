@@ -33,7 +33,7 @@ const findAllTask = () => {
             .select({
             id: schemas_1.tasks.id,
             content: schemas_1.tasks.content,
-            post: {
+            task: {
                 id: schemas_1.subtasks.id,
                 title: schemas_1.subtasks.title,
             },
@@ -44,7 +44,7 @@ const findAllTask = () => {
         })
             .from(schemas_1.tasks)
             .leftJoin(schemas_1.users, (0, drizzle_orm_1.eq)(schemas_1.users.id, schemas_1.tasks.authorId))
-            .leftJoin(schemas_1.subtasks, (0, drizzle_orm_1.eq)(schemas_1.subtasks.id, schemas_1.tasks.postId))
+            .leftJoin(schemas_1.subtasks, (0, drizzle_orm_1.eq)(schemas_1.subtasks.id, schemas_1.tasks.id))
             .execute();
     }
     catch (err) {

@@ -1,18 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.addUser = exports.findByCredentials = exports.getUserById = exports.getAllUsers = void 0;
-const pool_1 = require("../config/pool");
 const drizzle_orm_1 = require("drizzle-orm");
+const pool_1 = require("../config/pool");
 const schemas_1 = require("../schemas");
 const utils_1 = require("../utils");
-// Ce fichier de model corresponds à une écriture + ancienne de drizzle (method objets pour les requetes)
 const getAllUsers = () => {
     try {
         return pool_1.db.query.users.findMany({
             columns: {
                 id: true,
-                username: true
-            }
+                username: true,
+            },
         });
     }
     catch (err) {
@@ -27,25 +26,9 @@ const getUserById = (id) => {
             where: (0, drizzle_orm_1.eq)(schemas_1.users.id, id),
             columns: {
                 id: true,
-                username: true
+                username: true,
             },
-            with: {
-                comments: {
-                    columns: {
-                        id: true,
-                        content: true,
-                    }
-                },
-                posts: {
-                    columns: {
-                        id: true,
-                        title: true
-                    }
-                }
-            }
         });
-        // En SQL ca donnerait:
-        // SELECT id, username, comments.id, comments.content, posts.id, posts.title FROM users WHERE id = 'id' LEFT JOIN comments ON users.id = comments.author LEFT JOIN posts ON users.id = posts.author_id;
     }
     catch (err) {
         utils_1.logger.error(`Erreur lors de la récupération de l'utilisateur; ${err.message}`);
@@ -61,8 +44,8 @@ const findByCredentials = (email) => {
                 id: true,
                 email: true,
                 username: true,
-                password: true
-            }
+                password: true,
+            },
         });
     }
     catch (err) {

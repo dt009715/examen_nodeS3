@@ -1,33 +1,29 @@
 import { relations } from "drizzle-orm";
-import { comments, posts, users } from ".";
+import { subtasks, tasks, users } from ".";
 
 export const userRelations = relations(users, ({ many }) => ({
-  posts: many(posts), // un utilisateur peut avoir plusieurs posts
-  comments: many(comments), // un utilisateur peut avoir plusieurs commentaires
+  tasks: many(tasks),
 }));
 
-export const commentRelations = relations(comments, ({ one }) => ({
+export const taskRelations = relations(tasks, ({ one }) => ({
   user: one(users, {
-    // le nom de la table est référencée ici, un commentaire est lié à un seul utilisateur
-    // premièrement, on recupere la colonne qui fait référence à users dans la table comments
-    fields: [comments.authorId],
-    // deuxiemement, on recupere la colonne/table qui fait reference à la colonne authorId de la table comments
+    fields: [tasks.authorId],
     references: [users.id],
   }),
 
-  post: one(posts, {
+  post: one(tasks, {
     // le nom de la table est référencée ici, un commentaire est lié à un seul utilisateur
     // premièrement, on recupere la colonne qui fait référence à users dans la table comments
-    fields: [comments.postId],
+    fields: [tasks.id],
     // deuxiemement, on recupere la colonne/table qui fait reference à la colonne authorId de la table comments
-    references: [posts.id],
+    references: [tasks.authorId],
   }),
 }));
 
-export const postRelation = relations(posts, ({ one, many }) => ({
-  user: one(users, {
-    fields: [posts.author],
-    references: [users.id],
+export const subtasksRelation = relations(subtasks, ({ one, many }) => ({
+  user: one(tasks, {
+    fields: [subtasks.author],
+    references: [tasks.id],
   }),
-  comments: many(comments),
+  tasks: many(subtasks),
 }));

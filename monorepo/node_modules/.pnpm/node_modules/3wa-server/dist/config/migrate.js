@@ -16,17 +16,18 @@ const migrator_1 = require("drizzle-orm/node-postgres/migrator");
 const node_postgres_1 = require("drizzle-orm/node-postgres");
 const env_1 = require("./env");
 const { DATABASE_URL } = env_1.env;
+console.log(DATABASE_URL);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         // Nous créons un pool de connexion à la DB avec notre URL de connexion
         const pool = new pg_1.Pool({ connectionString: DATABASE_URL });
         // On initialise la co à la DB pour avoir une instance de NodePgDatabse
         const db = (0, node_postgres_1.drizzle)(pool);
-        console.info('Migrating Database ...');
+        console.info("Migrating Database ...");
         // On appelle enfin la fonction migrate de Drizzle, qui va migrer la DB en appliquant les migrations de schémas
         // dans le dossier spécifié
-        yield (0, migrator_1.migrate)(db, { migrationsFolder: 'src/migrations' });
-        console.log('Database migrated successfully');
+        yield (0, migrator_1.migrate)(db, { migrationsFolder: "src/migrations" });
+        console.log("Database migrated successfully");
         // On ferme la connexion à la DB
         yield pool.end();
     });
