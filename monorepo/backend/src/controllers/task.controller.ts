@@ -13,7 +13,7 @@ import { APIResponse } from "../utils";
 export const getAll = async (request: Request, response: Response) => {
   try {
     const tasks = await findAllTask();
-    APIResponse(response, tasks, "All comments", 200);
+    APIResponse(response, tasks, "All tasks", 200);
   } catch (err: any) {
     console.error(err);
     APIResponse(response, [], err.message, 500);
@@ -46,5 +46,5 @@ export const deleteTaskId = async (request: Request, response: Response) => {
   const { userId } = response.locals.user;
 
   await deleteTaskById(id, userId);
-  APIResponse(response, null, "Comment deleted", 204);
+  APIResponse(response, null, "task deleted", 204);
 };

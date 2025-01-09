@@ -1,5 +1,6 @@
 import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
+import { tasks } from "./task";
 import { users } from "./users";
 
 // id sequentielle ( 1, 2, 3, ... ... )

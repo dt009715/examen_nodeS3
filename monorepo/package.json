@@ -2,9 +2,9 @@
   "name": "monorepo",
   "version": "1.0.0",
   "scripts": {
-    "dev:server": "pnpm --filter 3wa-server dev",
-    "dev:client": "pnpm --filter 3wa-client dev",
-    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\""
+    "dev:backend": "pnpm --filter 3wa-beckend dev",
+    "dev:frontend": "pnpm --filter 3wa-frontend dev",
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\""
   },
   "workspaces": [
     "packages/*"

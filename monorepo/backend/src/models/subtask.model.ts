@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../config/pool";
 import { newSubtask } from "../entities/subtask";
-import { comments, subtasks, users } from "../schemas";
+import { subtasks, tasks, users } from "../schemas";
 import { logger } from "../utils";
 
 export const pushSubTask = (subtask: newSubtask) => {
@@ -33,7 +33,7 @@ export const findAllSubtaskWithParents = async () => {
       parentTitle: tasks.title,
     })
     .from(subtasks)
-    .leftJoin(tasks, subtasks.taskId.eq(tasks.id));
+    .leftJoin(tasks, eq(subtasks.parentId, tasks.id));
 };
 
 export const getSubTaskById = (id: string) => {
@@ -48,7 +48,7 @@ export const getSubTaskById = (id: string) => {
         },
       })
       .from(tasks)
-      .leftJoin(users, eq(users.id, comments.authorId))
+      .leftJoin(users, eq(users.id, tasks.authorId))
       .where(eq(tasks.id, id))
       .execute();
   } catch (err: any) {
