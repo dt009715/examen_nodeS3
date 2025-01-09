@@ -1,8 +1,8 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../config/pool";
+import { newTask } from "../entities/task";
 import { subtasks, tasks, users } from "../schemas";
 import { logger } from "../utils";
-import { newTask } from "../entities/task";
 
 export const pushTask = (task: newTask) => {
   try {
@@ -41,7 +41,7 @@ export const findAllTask = () => {
       })
       .from(tasks)
       .leftJoin(users, eq(users.id, tasks.authorId))
-      .leftJoin(subtasks, eq(subtasks.id, tasks.postId))
+      .leftJoin(subtasks, eq(subtasks.id, tasks.id))
       .execute();
   } catch (err: any) {
     logger.error("Impossible de récupérer les commentaires " + err.message);
