@@ -1,0 +1,76 @@
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { z } from "zod";
+
+import { env } from "../config/env";
+
+import { addUser, findByCredentials } from "../models/user.model";
+import { APIResponse, hashPassword, logger, verifyPassword } from "../utils";
+import { userValidation } from "../validation/users.validation";
+
+const { NODE_ENV, JWT_SECRET } = env;
+
+export const register = async (request: Request, response: Response) => {
+  try {
+    const { email, password, username } = userValidation.parse(request.body);
+    const emailAlreadyExists = await findByCredentials(email);
+    if (emailAlreadyExists)
+      return APIResponse(response, [], "Cet email est déjà utilisé", 400);
+
+    const hash = await hashPassword(password);
+    if (!hash) throw new Error("Erreur lors du hashage du mot de passe");
+
+    const [newUser] = await addUser({ username, email, password: hash });
+    if (!newUser)
+      return APIResponse(
+        response,
+        [],
+        "Erreur lors de la création de l'utilisateur",
+        500
+      );
+
+    return APIResponse(response, newUser.id, "Vous êtes inscrit", 200);
+  } catch (err: any) {
+    logger.error(
+      `Erreur lors de l'inscription de l'utilisateur: ${err.message}`
+    );
+    if (err instanceof z.ZodError) {
+      return APIResponse(response, err.errors, "Formulaire incorrect", 400);
+    }
+    APIResponse(response, null, "Erreur serveur", 500);
+  }
+};
+
+export const login = async (request: Request, response: Response) => {
+  try {
+    const { email, password } = request.body;
+    const user = await findByCredentials(email);
+    if (!user)
+      return APIResponse(response, [], "Email ou mot de passe invalide", 400);
+
+    if ((await verifyPassword(user.password, password)) === false) {
+      return APIResponse(response, [], "Email ou mot de passe invalide", 400);
+    }
+
+    const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    response.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: NODE_ENV === "production",
+    });
+
+    APIResponse(response, null, "Vous êtes connecté", 200);
+  } catch (err: any) {
+    logger.error(
+      `Erreur lors de la connexion de l'utilisateur: ${err.message}`
+    );
+    APIResponse(response, null, "Erreur serveur", 500);
+  }
+};
+
+export const logout = (request: Request, response: Response) => {
+  response.clearCookie("accessToken");
+  APIResponse(response, null, "Vous êtes déconnecté", 200);
+};
