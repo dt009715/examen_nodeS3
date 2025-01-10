@@ -12,10 +12,7 @@ export const taskRelations = relations(tasks, ({ one }) => ({
   }),
 
   post: one(tasks, {
-    // le nom de la table est référencée ici, un commentaire est lié à un seul utilisateur
-    // premièrement, on recupere la colonne qui fait référence à users dans la table comments
     fields: [tasks.id],
-    // deuxiemement, on recupere la colonne/table qui fait reference à la colonne authorId de la table comments
     references: [tasks.authorId],
   }),
 }));

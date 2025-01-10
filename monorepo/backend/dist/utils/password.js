@@ -17,36 +17,33 @@ exports.verifyPassword = verifyPassword;
 const argon2_1 = __importDefault(require("argon2"));
 function hashPassword(password) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!password || password.length < 6) { // Vérification manuelle
-            console.error('Mot de passe invalide: trop court ou vide');
+        if (!password || password.length < 8) {
+            console.error("Mot de passe invalide: trop court ou vide");
             return;
         }
-        // On va hash un mot de passe
         try {
             const hash = yield argon2_1.default.hash(password, {
-                type: argon2_1.default.argon2id, // utilisation de l'algo argon2id pour le hashage -> le + recommandé
-                // v options hardware en dessous
-                memoryCost: 2 ** 16, // 2^16=65536=64MB
-                timeCost: 3, // 3 passes -> cad 3 itérations pour le hashage
-                parallelism: 1, // 1 thread (coeur CPU) utilisé pour le hashage 
-                salt: Buffer.from("SuperSaltGentil") // "clé" ou salt de hashage pour rendre le hashage unique
+                type: argon2_1.default.argon2id,
+                memoryCost: 2 ** 16, //
+                timeCost: 3,
+                parallelism: 1,
+                salt: Buffer.from("SuperSaltGentil"),
             });
-            console.log('Mot de passe hashé: ', hash);
+            console.log("Mot de passe hashé: ", hash);
             return hash;
         }
         catch (err) {
-            console.error('Erreur de hashage: ', err);
+            console.error("Erreur de hashage: ", err);
         }
     });
 }
-// On vérifie que le mot de passe hashé et en clair matches bien
 function verifyPassword(hashedPassword, inputPassword) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             return yield argon2_1.default.verify(hashedPassword, inputPassword);
         }
         catch (err) {
-            console.error('Erreur lors de la vérification: ', err);
+            console.error("Erreur lors de la vérification: ", err);
             return false;
         }
     });

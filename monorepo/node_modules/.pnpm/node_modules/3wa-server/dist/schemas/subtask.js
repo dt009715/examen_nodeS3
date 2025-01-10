@@ -4,8 +4,6 @@ exports.subtasks = void 0;
 const pg_core_1 = require("drizzle-orm/pg-core");
 const task_1 = require("./task");
 const users_1 = require("./users");
-// id sequentielle ( 1, 2, 3, ... ... )
-// uuid UNIVERSALLY UNIQUE IDENTIFIER
 exports.subtasks = (0, pg_core_1.pgTable)("subtask", {
     id: (0, pg_core_1.uuid)("id").defaultRandom().primaryKey(),
     parentId: (0, pg_core_1.uuid)("parent_id")

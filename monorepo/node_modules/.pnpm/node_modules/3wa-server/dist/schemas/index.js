@@ -18,4 +18,3 @@ __exportStar(require("./subtask"), exports);
 __exportStar(require("./task"), exports);
 __exportStar(require("./users"), exports);
 __exportStar(require("./relations"), exports);
-// Les relations TOUJOURS EXPORTEES EN DERNIER !!!

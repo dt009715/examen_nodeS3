@@ -3,9 +3,6 @@ import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { tasks } from "./task";
 import { users } from "./users";
 
-// id sequentielle ( 1, 2, 3, ... ... )
-// uuid UNIVERSALLY UNIQUE IDENTIFIER
-
 export const subtasks = pgTable("subtask", {
   id: uuid("id").defaultRandom().primaryKey(),
   parentId: uuid("parent_id")
