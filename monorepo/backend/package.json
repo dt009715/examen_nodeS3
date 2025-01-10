@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon dist/src/server.ts",
+    "start": "nodemon ../dist/server.js",
     "build": "tsc",
     "dev": "concurrently \"tsc --watch\" \"tsnd --respawn src/server.ts\"",
     "generate": "drizzle-kit generate --config=src/config/drizzle.ts",

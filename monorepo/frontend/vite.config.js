@@ -11,9 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vite_1 = require("vite");
 const plugin_react_1 = __importDefault(require("@vitejs/plugin-react"));
 // https://vite.dev/config/
-export default defineConfig(
-  0,
-  vite_1.defineConfig
-)({
-  plugins: [(0, plugin_react_1.default)()],
+export default defineConfig({
+  plugins: [plugin_react_1.default()],
 });
