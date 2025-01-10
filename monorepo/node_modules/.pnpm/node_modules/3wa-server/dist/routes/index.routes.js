@@ -11,6 +11,6 @@ const user_routes_1 = __importDefault(require("./user.routes"));
 const router = (0, express_1.Router)();
 router.use("/users", user_routes_1.default);
 router.use("/auth", auth_routes_1.default);
-router.use("/posts", subtask_routes_1.default);
-router.use("/comments", task_routes_1.default);
+router.use("/subtask", subtask_routes_1.default);
+router.use("/task", task_routes_1.default);
 exports.default = router;
